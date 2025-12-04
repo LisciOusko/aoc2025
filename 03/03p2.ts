@@ -20,7 +20,9 @@ function getJoltage(line: string): number {
     let highest = 0;
 
     const visitor = (numStr: string, substr: string, layer: number) => {
-        let checked: string[] = [];
+        if (substr.length < layer) {
+            return
+        };
 
         if (!layer) {
             highest = parseInt(numStr);
@@ -28,11 +30,7 @@ function getJoltage(line: string): number {
         }
 
         for (let i = 0; i < substr.length; i++) {
-            const char = substr[i];
-            if (checked.includes(char)
-            || parseInt(String(highest).slice(0, numStr.length + 1)) > parseInt(numStr + substr[i])) continue;
-
-            checked.push(char);
+            if (parseInt(String(highest).slice(0, numStr.length + 1)) > parseInt(numStr + substr[i])) continue;
             visitor(numStr + substr[i], substr.slice(i + 1), layer - 1);
         }
     }   
